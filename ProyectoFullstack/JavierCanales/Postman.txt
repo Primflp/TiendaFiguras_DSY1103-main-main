@@ -1,0 +1,5 @@
+http://localhost:8082/api/v1/msclientes
+
+http://localhost:8083/api/v1/pedidos
+
+http://localhost:8085/api/v1/organizacion

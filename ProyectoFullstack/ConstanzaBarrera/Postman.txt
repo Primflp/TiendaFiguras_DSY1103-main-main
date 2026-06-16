@@ -1,0 +1,103 @@
+Microservicio clientes
+
+--- clientes
+
+http://localhost:8082/api/v1/msclientes/clientes/buscartodos
+
+http://localhost:8082/api/v1/msclientes/clientes/guardar
+
+http://localhost:8082/api/v1/msclientes/clientes/buscarporid/
+
+http://localhost:8082/api/v1/msclientes/clientes/actualizar/
+
+http://localhost:8082/api/v1/msclientes/clientes/eliminarporid/
+
+http://localhost:8082/api/v1/msclientes/clientes/autenticacion
+
+http://localhost:8082/api/v1/msclientes/clientes/buscarporrun
+
+http://localhost:8082/api/v1/msclientes/clientes/buscarpordireccion
+
+{
+  "runCliente": "22.378.432-1,
+  "nombresCliente": "Constanza Isidora",
+  "apPaternoCliente": "Barrera",
+  "apMaternoCliente": "Gallegos",
+  "direccionCliente": "San Antonio 1415",
+  "numeroCliente": 931413674,
+  "correoCliente": "con.barrerag@duocuc.cl",
+  "contrasenaCliente": "nopassword"
+}
+
+--- lista de deseos
+
+http://localhost:8082/api/v1/msclientes/listadeseos/buscartodas
+
+http://localhost:8082/api/v1/msclientes/listadeseos/guardar
+
+http://localhost:8082/api/v1/msclientes/listadeseos/buscarporid/
+
+http://localhost:8082/api/v1/msclientes/listadeseos/actualizar/
+
+http://localhost:8082/api/v1/msclientes/listadeseos/eliminarporid/
+
+http://localhost:8082/api/v1/msclientes/listadeseos//vincular/
+
+http://localhost:8082/api/v1/msclientes/listadeseos//desvincular
+
+{
+  "nombreListaDeseos": "Figuras que siempre quise"
+}
+
+Microservicio figuras
+
+--- Figuras
+
+http://localhost:8081/api/v1/msfiguras/figuras/buscartodas
+
+http://localhost:8081/api/v1/msfiguras/figuras/guardar
+
+http://localhost:8081/api/v1/msfiguras/figuras/buscarporid/
+
+http://localhost:8081/api/v1/msfiguras/figuras/actualizar/
+
+http://localhost:8081/api/v1/msfiguras/figuras/eliminarporid/
+
+http://localhost:8081/api/v1/msfiguras/figuras/stocktotal
+
+http://localhost:8081/api/v1/msfiguras/figuras/stockreservado
+
+http://localhost:8081/api/v1/msfiguras/figuras/buscarportamano
+
+http://localhost:8081/api/v1/msfiguras/figuras/buscarpormarca
+
+http://localhost:8081/api/v1/msfiguras/figuras/buscarportipocaja
+
+{
+  "nombreFigura": "K-Angel",
+  "tamanoFigura": 30,
+  "marcaFigura": "WSS",
+  "tipoCajaFigura": "Window Box con acrylic",
+  "stockTotalFigura": 100,
+  "stockReservadoFigura": 200
+}
+
+--- Categoria de figuras
+
+http://localhost:8081/api/v1/msfiguras/categoria/buscartodas
+
+http://localhost:8081/api/v1/msfiguras/categoria/guardar
+
+http://localhost:8081/api/v1/msfiguras/categoria/buscarporid/
+
+http://localhost:8081/api/v1/msfiguras/categoria/actualizar/
+
+http://localhost:8081/api/v1/msfiguras/categoria/eliminarporid/
+
+http://localhost:8081/api/v1/msfiguras/categoria//vincular/
+
+http://localhost:8081/api/v1/msfiguras/categoria//desvincular
+
+{
+  "nombreCategoriaFigura": "Needy Girl Overdose"
+}

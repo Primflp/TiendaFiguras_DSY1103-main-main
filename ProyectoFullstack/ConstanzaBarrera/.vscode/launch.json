@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "MsClientesApplication",
+            "request": "launch",
+            "mainClass": "tienda_figuras.ms_clientes.MsClientesApplication",
+            "projectName": "ms_clientes"
+        },
+        {
+            "type": "java",
+            "name": "MsFigurasApplication",
+            "request": "launch",
+            "mainClass": "tienda_figuras.ms_figuras.MsFigurasApplication",
+            "projectName": "ms_figuras"
+        }
+    ]
+}
