@@ -115,6 +115,17 @@ public class PedidosController {
     }
 
     @DeleteMapping("/detallePedido/{id}")
+    @Operation(summary = "Elimina un detalle pedido", description = "Elimina un detalle pedido del sistema")
+    @ApiResponses(value = {
+            @ApiResponse(
+                        responseCode = "200",
+                        description = "Se ha eliminado correctamente el detalle pedido con la ID seleccionada", 
+                        content = @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = DetallePedido.class))),
+            @ApiResponse(
+                        responseCode = "404", description = "El detalle pedido que esta intentando eliminar no existe")
+    })
+    
     public ResponseEntity<Void> detallePedidoDelete(@PathVariable Long id){
 
         DetallePedido detallePedido = detallePedidoService.detallePedidoFindById(id);
@@ -140,7 +151,7 @@ public class PedidosController {
                         content = @Content(mediaType = "application/json",
                         schema = @Schema(implementation = DetallePedido.class))),
             @ApiResponse(
-                        responseCode = "404", description = "No se logró encontrar un detalle pedido dentro del rango de precio buscado")
+                        responseCode = "204", description = "No se logró encontrar un detalle pedido dentro del rango de precio buscado")
     })
     public ResponseEntity<List<DetallePedido>> detallePedidoFiltrarPrecio(@RequestParam int desde, @RequestParam int hasta){
         
@@ -163,7 +174,7 @@ public class PedidosController {
                         content = @Content(mediaType = "application/json",
                         schema = @Schema(implementation = DetallePedido.class))),
             @ApiResponse(
-                        responseCode = "404", description = "No se pudo actualizar el detalle pedido")
+                        responseCode = "404", description = "No se pudo encontrar el detalle pedido a actualizar")
     })
     public ResponseEntity<DetallePedido> detallePedidoUpdate(@PathVariable Long id, @RequestBody DetallePedido detallePedidoUpdate){
 
@@ -180,21 +191,31 @@ public class PedidosController {
     // metodos de OpenFeign DetallePedido
 
     @GetMapping("/detallePedido/buscar/detallePedido/{idDetallePedido}/figura/{idFigura}")
-    @Operation(summary = "Busca un detalle pedido", description = "Guarda un nuevo detalle pedido en el sistema")
+    @Operation(summary = "Busca un detalle pedido", description = "Busca un detalle pedido en base a la figura que esta asocidada")
     @ApiResponses(value = {
             @ApiResponse(
                         responseCode = "200",
-                        description = "Se guardo correctamente el nuevo detalle pedido", 
+                        description = "Se obtuvo correctamente el detalle pedido asociado a la figura", 
                         content = @Content(mediaType = "application/json",
                         schema = @Schema(implementation = DetallePedido.class))),
             @ApiResponse(
-                        responseCode = "404", description = "No se pudo guardar el detalle pedido")
+                        responseCode = "404", description = "No se encontro un detalle pedido")
     })
     public ResponseEntity<ResponseFiguraDTO> buscarFiguraPorDetallePedido(@PathVariable Long idDetallePedido, @PathVariable Long idFigura){
         return ResponseEntity.ok(detallePedidoService.buscarFiguraPorDetallePedido(idDetallePedido, idFigura));
     }
 
     @PutMapping("/detallePedido/vincular/detallePedido/{idDetallePedido}/figura/{idFigura}")
+    @Operation(summary = "Vincula un detalle pedido a una figura", description = "Vincula un detalle pedido a una de las figuras existentes")
+    @ApiResponses(value = {
+            @ApiResponse(
+                        responseCode = "200",
+                        description = "Se vinculo correctamente el detalle pedido con la figura seleccionada", 
+                        content = @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = DetallePedido.class))),
+            @ApiResponse(
+                        responseCode = "404", description = "No se encontro un detalle pedido o figura para vincular")
+    })
     public ResponseEntity<DetallePedido> vincularFiguraADetallePedido(@PathVariable Long idDetallePedido, @PathVariable Long idFigura){
 
         FiguraDTO figura = figuraClientRest.obtenerDatosFiguras(idFigura);
@@ -210,6 +231,16 @@ public class PedidosController {
     // Pedido
 
     @GetMapping("/pedido")
+    @Operation(summary = "Obtener una lista de todos los pedidos", description = "Obtiene una lista de todos los pedidos presente en el sistema")
+    @ApiResponses(value = {
+            @ApiResponse(
+                        responseCode = "200",
+                        description = "Se obtuvo el listado correctamente", 
+                        content = @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = Pedido.class))),
+            @ApiResponse(
+                        responseCode = "204", description = "No existe ningun pedido en el sistema")
+    })
     public ResponseEntity<List<Pedido>> pedidoFindAll(){
         
         List<Pedido> listaPedido = pedidoService.pedidoFindAll();
@@ -222,6 +253,16 @@ public class PedidosController {
     }
 
     @GetMapping("/pedido/{id}")
+    @Operation(summary = "Buscar un pedido utilizando una id", description = "Obtiene un pedido en la cual su ID coincida con la ID de la busqueda")
+    @ApiResponses(value = {
+            @ApiResponse(
+                        responseCode = "200",
+                        description = "Se obtuvo el pedido con la ID buscada", 
+                        content = @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = Pedido.class))),
+            @ApiResponse(
+                        responseCode = "404", description = "No existe ningun pedido que coincida con esa ID")
+    })
     public ResponseEntity<Pedido> pedidoFindById(@PathVariable Long id){
         Pedido pedido = pedidoService.pedidoFindById(id);
 
@@ -229,6 +270,16 @@ public class PedidosController {
     }
 
     @PostMapping("/pedido")
+    @Operation(summary = "Guarda un pedido", description = "Guarda un nuevo pedido en el sistema")
+    @ApiResponses(value = {
+            @ApiResponse(
+                        responseCode = "200",
+                        description = "Se guardo correctamente el nuevo pedido", 
+                        content = @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = Pedido.class))),
+            @ApiResponse(
+                        responseCode = "404", description = "No se pudo guardar el pedido")
+    })
     public ResponseEntity<Pedido> pedidoSave(@RequestBody Pedido pedido){
         Pedido pedido2 = pedidoService.pedidoSave(pedido);
 
@@ -236,6 +287,16 @@ public class PedidosController {
     }
 
     @DeleteMapping("/pedido/{id}")
+    @Operation(summary = "Elimina un pedido", description = "Elimina un pedido del sistema")
+    @ApiResponses(value = {
+            @ApiResponse(
+                        responseCode = "200",
+                        description = "Se ha eliminado correctamente el pedido con la ID seleccionada", 
+                        content = @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = Pedido.class))),
+            @ApiResponse(
+                        responseCode = "404", description = "El pedido que esta intentando eliminar no existe")
+    })
     public ResponseEntity<Void> pedidoDelete(@PathVariable Long id){
         
         Pedido pedido = pedidoService.pedidoFindById(id);
@@ -251,6 +312,16 @@ public class PedidosController {
         // metodos custom pedido
 
     @GetMapping("/pedido/estadoPedido/{id}")
+    @Operation(summary = "ver el estado de un pedido", description = "Visualiza la información relevante con respecto al estado de un pedido")
+    @ApiResponses(value = {
+            @ApiResponse(
+                        responseCode = "200",
+                        description = "Se ha obtenido correctamente el estado del pedido con la ID buscada", 
+                        content = @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = Pedido.class))),
+            @ApiResponse(
+                        responseCode = "404", description = "El pedido que esta intentando no existe")
+    })
     public ResponseEntity<EstadoPedidoDTO> verEstadoPedidoDTO(@PathVariable Long id){
 
         EstadoPedidoDTO estadoPedidoDTO = pedidoService.verEstadoPedido(id);
@@ -263,6 +334,16 @@ public class PedidosController {
     }
 
     @PutMapping("/pedido/actualizar/{id}")
+    @Operation(summary = "Actualizar un pedido", description = "Actualiza los datos de un pedido existente en el sistema")
+    @ApiResponses(value = {
+            @ApiResponse(
+                        responseCode = "200",
+                        description = "Se actualizó correctamente el nuevo pedido", 
+                        content = @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = Pedido.class))),
+            @ApiResponse(
+                        responseCode = "404", description = "No se pudo encontrar el pedido a actualizar")
+    })
     public ResponseEntity<Pedido> pedidoUpdate(@PathVariable Long id, @RequestBody Pedido pedidoUpdate){
 
         Pedido pedido = pedidoService.pedidoFindById(id);
@@ -279,11 +360,31 @@ public class PedidosController {
         // metodos custom para OpenFeign Pedido
 
     @GetMapping("/pedido/buscar/pedido/{idPedido}/cliente/{idCliente}")
+    @Operation(summary = "Busca un pedido por cliente", description = "Busca un detalle pedido en base al cliente que esta asocidado")
+    @ApiResponses(value = {
+            @ApiResponse(
+                        responseCode = "200",
+                        description = "Se obtuvo correctamente el detalle pedido asociado a la figura", 
+                        content = @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = Pedido.class))),
+            @ApiResponse(
+                        responseCode = "404", description = "El pedido o cliente que esta intentando utilizar no existen")
+    })
     public ResponseEntity<ResponseClienteDTO> buscarClientePorPedido(@PathVariable Long idPedido, @PathVariable Long idCliente){
         return ResponseEntity.ok(pedidoService.buscarClientePorPedido(idPedido, idCliente));
     }
 
     @PutMapping("/pedido/vincular/pedido/{idPedido}/cliente/{idCliente}")
+    @Operation(summary = "Vincula un pedido a un cliente", description = "Vincula un pedido a uno de los clientes existentes")
+    @ApiResponses(value = {
+            @ApiResponse(
+                        responseCode = "200",
+                        description = "Se vinculo correctamente el pedido con el cliente seleccionado", 
+                        content = @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = Pedido.class))),
+            @ApiResponse(
+                        responseCode = "404", description = "No se encontro un pedido o cliente para vincular")
+    })
     public ResponseEntity<?> vincularClienteAPedido(@PathVariable Long idPedido, @PathVariable Long idCliente){
 
         ClienteDTO cliente = clienteClientRest.obtenerDatosCliente(idCliente);
@@ -299,6 +400,16 @@ public class PedidosController {
     // TipoPago
 
     @GetMapping("/tipoPago")
+    @Operation(summary = "Obtener una lista de todos los tipos de pago", description = "Obtiene una lista de todos los tipos de pago presentes en el sistema")
+    @ApiResponses(value = {
+            @ApiResponse(
+                        responseCode = "200",
+                        description = "Se obtuvo el listado correctamente", 
+                        content = @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = TipoPago.class))),
+            @ApiResponse(
+                        responseCode = "204", description = "No existe ningun tipo de pago en el sistema")
+    })
     public ResponseEntity<List<TipoPago>> tipoPagoFindAll(){
         
         List<TipoPago> listaTipoPago = tipoPagoService.tipoPagoFindAll();
@@ -311,6 +422,15 @@ public class PedidosController {
     }
 
     @GetMapping("/tipoPago/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(
+                        responseCode = "200",
+                        description = "Se obtuvo el tipo de pago con la ID buscada", 
+                        content = @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = TipoPago.class))),
+            @ApiResponse(
+                        responseCode = "404", description = "No existe ningun tipo de pago que coincida con esa ID")
+    })
     public ResponseEntity<TipoPago> tipoPagoFindById(@PathVariable Long id){
 
         TipoPago tipoPago = tipoPagoService.tipoPagoFindById(id);
@@ -319,6 +439,16 @@ public class PedidosController {
     }
 
     @PostMapping("/tipoPago")
+    @Operation(summary = "Guarda un tipo de pago", description = "Guarda un nuevo tipo de pago en el sistema")
+    @ApiResponses(value = {
+            @ApiResponse(
+                        responseCode = "200",
+                        description = "Se guardo correctamente el nuevo tipo de pago", 
+                        content = @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = TipoPago.class))),
+            @ApiResponse(
+                        responseCode = "404", description = "No se pudo guardar el tipo de pago")
+    })
     public ResponseEntity<TipoPago> tipoPagoSave(@RequestBody TipoPago tipoPago){
         
         TipoPago tipoPago2 = tipoPagoService.tipoPagoSave(tipoPago);
@@ -327,6 +457,16 @@ public class PedidosController {
     }
 
     @DeleteMapping("/tipoPago/{id}")
+    @Operation(summary = "Elimina un tipo de pago", description = "Elimina un tipo de pago del sistema")
+    @ApiResponses(value = {
+            @ApiResponse(
+                        responseCode = "200",
+                        description = "Se ha eliminado correctamente el tipo de pago con la ID seleccionada", 
+                        content = @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = Pedido.class))),
+            @ApiResponse(
+                        responseCode = "404", description = "El tipo de pago que esta intentando eliminar no existe")
+    })
     public ResponseEntity<Void> tipoPagoDelete(@PathVariable Long id){
         
         TipoPago tipoPago = tipoPagoService.tipoPagoFindById(id);
@@ -342,6 +482,16 @@ public class PedidosController {
     // metodos custom TipoPago
 
     @PutMapping("/tipoPago/vincular/tipoPago/{idTipoPago}/pedido/{idPedido}")
+    @Operation(summary = "Vincula un tipo de pago a un pedido", description = "Vincula un tipo de pago a uno de los pedidos existentes")
+    @ApiResponses(value = {
+            @ApiResponse(
+                        responseCode = "200",
+                        description = "Se vinculo correctamente el tipo de pago con el pedido seleccionado", 
+                        content = @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = TipoPago.class))),
+            @ApiResponse(
+                        responseCode = "404", description = "No se encontro un tipo de pago o cliente para vincular")
+    })
     public ResponseEntity<?> vincularTipoPago(@PathVariable Long idTipoPago, @PathVariable Long idPedido){
 
         TipoPago tipoPago = tipoPagoService.tipoPagoFindById(idTipoPago);
