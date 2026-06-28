@@ -16,7 +16,7 @@ import tienda_figura.ms_pedidos.repository.DetallePedidoRepository;
 import tienda_figura.ms_pedidos.repository.PedidoRepository;
 import tienda_figura.ms_pedidos.repository.TipoPagoRepository;
 
-@Profile("test")
+@Profile("dev")
 @Component
 public class DataLoader implements CommandLineRunner{
     @Autowired

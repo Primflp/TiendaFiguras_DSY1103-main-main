@@ -39,8 +39,8 @@ public class DetallePedido {
     @PrePersist
     @PreUpdate
     public void calcularMontoMasIva(){
-        montoTotal = precioUnitario * 1.19;
-    }
 
-    
+        montoTotal = precioUnitario * cantidad * 1.19;
+       
+    }  
 }
