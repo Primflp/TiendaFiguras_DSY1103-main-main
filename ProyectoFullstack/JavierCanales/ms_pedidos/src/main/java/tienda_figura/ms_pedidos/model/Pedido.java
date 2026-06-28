@@ -1,6 +1,6 @@
 package tienda_figura.ms_pedidos.model;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

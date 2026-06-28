@@ -1,6 +1,6 @@
 package tienda_figura.ms_pedidos.dtoCliente;
 
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.Data;
 
